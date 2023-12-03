@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Edit Patient Details
+{% endblock %}
+
+{% block content %}
+    <h1>Edit Patient Details</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    
+        <input type="submit" value="Update">
+        <a href="{% url 'patient-list' %}">Cancel</a>
+    </form>
+{% endblock %}

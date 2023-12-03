@@ -1,0 +1,37 @@
+from django.urls import path
+from . import views
+
+
+urlpatterns = [
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('profile/', views.profile_view, name='profile'),
+    path('about-us/', views.about_us, name='about-us'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('patients/', views.patient_list, name='patient-list'),
+    path('patients/<int:patient_id>/', views.patient_detail, name='patient-detail'),
+    path('edit_patient/<int:patient_id>/', views.edit_or_update_patient, name='edit-patient'),
+    path('add_patient/', views.add_patient, name='add-patient'),
+    path('remove_patient/<int:patient_id>/', views.remove_patient, name='remove-patient'),
+    path('admission_detail/<int:admission_id>/', views.admission_detail, name='admission_detail'),
+    path('admissions/', views.admission_list, name='admission_list'),
+    path('add_admission/', views.add_admission, name='add_admission'),
+    path('remove_admission/<int:admission_id>/', views.remove_admission, name='remove_admission'),
+    path('doctors/', views.doctor_list, name='doctor-list'),
+    path('doctor_detail/<int:doctor_id>/', views.doctor_detail, name='doctor-detail'),
+    path('add_doctor/', views.add_doctor, name='add-doctor'),
+    path('remove_doctor/<int:doctor_id>/', views.remove_doctor, name='remove-doctor'),
+    path('employees/', views.employee_list, name='employee-list'),
+    path('employee_detail/<int:employee_id>/', views.employee_detail, name='employee-detail'),
+    path('add_employee/', views.add_employee, name='add-employee'),
+    path('remove_employee/<int:employee_id>/', views.remove_employee, name='remove-employee'),
+    path('departments/', views.department_list, name='department-list'),
+    path('add_department/', views.add_department, name='add-department'),
+    path('remove_department/<int:department_id>/', views.remove_department, name='remove-department'),
+    path('update_department/<int:department_id>/', views.update_department, name='update-department'),
+    path('medications/', views.medication_list, name='medication-list'),
+    path('add_medication/', views.add_medication, name='add-medication'),
+    path('medications/<int:medication_id>/update/', views.edit_or_update_medication, name='update-medication'),
+    path('medications/<int:medication_id>/remove/', views.remove_medication, name='remove-medication'),
+    path('patients/<int:patient_id>/add_prescription/', views.add_prescription, name='add-prescription'),
+]

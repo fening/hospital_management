@@ -1,0 +1,21 @@
+{% block title %}
+Employee Details
+{% endblock %}
+
+{% block content %}
+    <h1>Employee Details</h1>
+    <p>ID: {{ employee.employee_id }}</p>
+    <p>Name: {{ employee.name }}</p>
+    <p>Specialization: {{ employee.specialization }}</p>
+    <!-- Add more details as needed -->
+    
+    {% if employee.department %}
+        <h2>Department Information</h2>
+        <p>Department ID: {{ employee.department.department_id }}</p>
+        <p>Department Name: {{ employee.department.department_name }}</p>
+        <!-- Include other department details -->
+    {% endif %}
+    
+    <a href="{% url 'remove-employee' employee_id=employee.employee_id %}">Remove Employee</a>
+    <a href="{% url 'employee-list' %}">Back to Employee List</a>
+{% endblock %}

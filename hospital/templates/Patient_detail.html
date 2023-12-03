@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Patient Detail
+{% endblock %}
+
+{% block content %}
+<div>
+<h1>Patient Detail</h1>
+<dl>
+<dd>
+<ul class="alt">
+    <li>Patient Name: {{ patient.name }}</li>
+    <li>Date of Birth: {{ patient.date_of_birth }}</li>
+    <li>Gender: {{ patient.gender }}</li>
+    <li>Address: {{ patient.address }}</li>
+    <!-- Add other patient details as needed -->
+</ul>
+</dd>
+<dd>
+{% if prescriptions %}
+    <h2>Medications:</h2>
+    <ul class = "alt">
+        {% for prescription in prescriptions %}
+            <li>
+                <li>{{ prescription.medication.medication_name }}</li> 
+                <li>Dosage: {{ prescription.dosage_instructions }}</li>
+                     Date Prescribed: {{ prescription.date_prescribed }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No medications assigned to this patient.</p>
+{% endif %}
+</dd>
+<dd>
+<a href="{% url 'remove-patient' patient_id=patient.patient_id %}" class="button">Remove Patient</a>
+<a href="{% url 'patient-list' %}" class="button primary">Back to Patient List</a>
+    
+<!-- Add link to add prescription for this patient -->
+<a href="{% url 'add-prescription' patient_id=patient.patient_id %}" class="button primary">Add Prescription</a>
+</dd>
+</dl>
+</div>
+{% endblock %}

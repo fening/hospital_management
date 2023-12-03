@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Admission Details
+{% endblock %}
+
+{% block content %}
+    <h1>Admission Details</h1>
+    <p>Admission ID: {{ admission.admission_id }}</p>
+    <p>Patient ID: {{ admission.patient_id }}</p>
+    <p>Admission Date: {{ admission.admission_date }}</p>
+    <p>Discharge Date: {{ admission.discharge_date }}</p>
+    <p>Diagnosis: {{ admission.diagnosis }}</p>
+    <p>Treating Doctor ID: {{ admission.treating_doctor_id }}</p>
+    <!-- Add more patient details -->
+    <hr>
+    <h2>Patient Details</h2>
+    <p>Patient Name: {{ admission.patient.name }}</p>
+    <p>Date of Birth: {{ admission.patient.date_of_birth }}</p>
+    <p>Gender: {{ admission.patient.gender }}</p>
+    <p>Address: {{ admission.patient.address }}</p>
+    <p>Phone: {{ admission.patient.phone }}</p>
+    <p>Email: {{ admission.patient.email }}</p>
+    <!-- Add more patient details as needed -->
+    <hr>
+    <a href="{% url 'remove_admission' admission_id=admission.admission_id %}">Remove Admission</a>
+    <hr>
+    <a href="{% url 'patient-list' %}">Back to Patient List</a>
+{% endblock %}

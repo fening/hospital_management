@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Doctor Details
+{% endblock %}
+
+{% block content %}
+    <h1>Doctor Details</h1>
+    <p>ID: {{ doctor.doctor_id }}</p>
+    <p>Name: {{ doctor.name }}</p>
+    <p>Specialization: {{ doctor.specialization }}</p>
+    <!-- Add more details as needed -->
+    <a href="{% url 'remove-doctor' doctor_id=doctor.doctor_id %}">Remove Doctor</a>
+    <a href="{% url 'doctor-list' %}">Back to Doctor List</a>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add Department
+{% endblock %}
+
+{% block content %}
+<style>
+
+    /* Style form inputs */
+    .form-container input[type="text"],
+    .form-container input[type="number"],
+    .form-container select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    
+    
+    
+    </style>
+    
+    <div class="form-container"><h1>Add Department</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Department</button>
+    </form></div>
+    
+    {% endblock %}

@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+
+<h1>Dashboard</h1>
+<style>
+
+.container {
+    display: flex;
+    justify-content: space-between; /* Adjust alignment based on your preference */
+    gap: 10px; /* Adjust the space between the elements */
+}
+
+.box {
+    width: 300px;
+    height: 150px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px;
+     /* Adjust the font size as needed */
+    text-align: center; /* Center the text horizontally */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.box p {
+    font-weight: bold;
+    font-size: 40px;
+}
+
+.box h4 {
+    margin-top: 10;
+    margin-bottom: .5; /* Remove default margin for h3 */
+}
+</style>
+<div class="container">
+    <div class="box">
+        <h3>Total Employees</h3>
+        <p>{{ total_employees }}</p>
+    </div>
+    <div class="box">
+        <h3>Total Departments</h3>
+        <p>{{ total_departments }}</p>
+    </div>
+    <div class="box">
+        <h3>Total Patients</h3>
+        <p>{{ total_patients }}</p>
+    </div>
+    <div class="box">
+        <h3>Total Admissions</h3>
+        <p>{{ total_admissions }}</p>
+    </div>
+
+</div>
+<div style="display: flex; justify-content: space-around; align-items: flex-start;">
+    <!-- Highcharts display for column chart -->
+    <div class="border" id="container" style="min-width: 310px; height: 400px; margin: 0 10px;"></div>
+
+    <!-- Highcharts display for pie chart -->
+    <div class="border" id="pieContainer" style="min-width: 310px; height: 400px; margin: 0 10px;"></div>
+</div>
+<div>
+ 
+</div>
+<div class="container">
+    <h2>Currently Rotating Doctors</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Doctor Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rotation in currently_rotating_doctors %}
+                <tr>
+                    <td>{{ rotation.doctor.name }}</td>
+                    <td>{{ rotation.start_date }}</td>
+                    <td>{{ rotation.end_date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    <!-- Chartjs libraries -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+    <script>
+        _categories = {{ categories | safe }};
+        _values = {{ values | safe }};
+
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Employees by Department'
+            },
+            subtitle: {
+                text: '' // You can add a subtitle if needed
+            },
+            xAxis: {
+                categories: _categories,
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Count'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y} </b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Employees',
+                data: _values
+            }]
+        });
+
+        Highcharts.chart('pieContainer', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Distribution of employees by department'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.y}</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.y}'
+                    }
+                }
+            },
+            series: [{
+                name: 'Count',
+                colorByPoint: true,
+                data: _values.map((value, index) => ({
+                    name: _categories[index],
+                    y: value
+                }))
+            }]
+        });
+    </script>
+{% endblock %}

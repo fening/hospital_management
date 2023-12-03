@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Department List
+{% endblock %}
+
+{% block content %}
+    <h1>Department List</h1>
+    <a href="{% url 'add-department' %}" class="primary button">Add Department</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Head ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for department in departments %}
+                <tr>
+                    <td>{{ department.department_id }}</td>
+                    <td>{{ department.department_name }}</td>
+                    <td>{{ department.head_of_department_id }}</td>
+                    <td>
+                        <a href="{% url 'update-department' department_id=department.department_id %}">Update</a> |
+                        <a href="{% url 'remove-department' department_id=department.department_id %}">Remove</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No departments available</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

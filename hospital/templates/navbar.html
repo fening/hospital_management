@@ -1,0 +1,46 @@
+				<!-- Sidebar -->
+                <div id="sidebar">
+                    <div class="inner">
+
+                        <!-- Search -->
+                            <section id="search" class="alt">
+                                <form method="post" action="#">
+                                    <input type="text" name="query" id="query" placeholder="Search" />
+                                </form>
+                            </section>
+
+                        <!-- Menu -->
+                            <nav id="menu">
+                                <header class="major">
+                                    <h2>Menu</h2>
+                                </header>
+                                <ul>
+                                    {% if user.is_authenticated %}
+                                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                                    <li><a href="{% url 'patient-list' %}">Patients</a> </li>
+                                    <li><a href="{% url 'doctor-list' %}">Doctors</a></li>
+                                    <li><a href="{% url 'employee-list' %}">Employees</a></li>
+                                    <li><a href="{% url 'admission_list' %}">Admissions</a></li>
+                                    <li><a href="{% url 'medication-list' %}">Dispensery</a></li>
+                                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                                {% else %}
+                                    <li><a href="{% url 'about-us' %}">About Us</a></li>
+                                    <li><a href="{% url 'login' %}">Login</a></li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+
+
+                        <!-- Section -->
+                            <section>
+                                <header class="major">
+                                    <h2>Contact IT for Help</h2>
+                                </header>
+                                <p>If you encounter any issues, please don’t hesitate to reach out to our IT department. We’re here to help you navigate through any technical difficulties you might be experiencing.</p>
+                                <ul class="contact">
+                                    <li class="icon solid fa-envelope"><a href="mailto:support@napohealthcare.com">support@napohealthcare.com</a></li>
+                                    <li class="icon solid fa-phone">(404) 123-4567</li>
+                                    <li class="icon solid fa-home">1234 Somewhere Road #8254 Atlanta, GA 30308</li>
+                                </ul>
+                            </section>

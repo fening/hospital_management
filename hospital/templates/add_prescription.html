@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Add Prescription
+{% endblock %}
+
+{% block content %}
+    <!-- Form -->
+
+    <style>
+        h2 {
+            margin-bottom: 20px;
+        }
+        .fieldWrapper {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .fieldWrapper label {
+            margin-right: 10px;
+        }
+    </style>
+<div class="row gtr-200">
+    <div>
+
+        <!-- Text stuff -->
+    <h2>Add Prescription for {{ patient.name }}</h2>
+   
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            <label for="{{ form.medication.id_for_label }}">Medication:</label>
+            <select name="{{ form.medication.name }}">
+                {% for choice in form.medication.field.queryset %}
+                    <option value="{{ choice.medication_id }}">{{ choice.medication_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="fieldWrapper">
+            <label for="{{ form.dosage_instructions.id_for_label }}">Dosage Instructions:</label>
+            {{ form.dosage_instructions }}
+        </div>
+        <button type="submit">Add Prescription</button>
+    </form>
+    
+</div>
+{% endblock %}
