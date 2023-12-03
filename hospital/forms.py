@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Patients, Admissions, Doctors, Employees, Departments, Medications, Prescriptions
+from .models import Patients, Admissions, Doctors, Employees, Departments, Medications, Prescriptions, Insurance, MedicalHistory
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField()
@@ -69,3 +69,12 @@ class PrescriptionForm(forms.ModelForm):
     class Meta:
         model = Prescriptions
         fields = ['medication','dosage_instructions' ]
+
+class InsuranceForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['patient'].label_from_instance = lambda obj: obj.name  # Assuming 'name' is the field in the Patient model
+        
+    class Meta:
+        model = Insurance
+        exclude = ['insurance_id']

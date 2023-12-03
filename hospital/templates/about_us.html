@@ -7,16 +7,6 @@
 
 {% block content %}
 
-    <title>About Us - NAPO Healthcare</title>
-    <style>
-        h1 {color: #333;}
-        h2 {color: #666;}
-        hr {border: 1px solid #ddd;}
-        .founder {display: flex; align-items: center;}
-        .founder img {width: 200px; height: 200px; border-radius: 50%; margin-right: 20px;}
-    </style>
-</head>
-<body>
     <h1>About Us</h1>
     <p>NAPO Healthcare is a pioneering healthcare company committed to revolutionizing the industry with innovative solutions and services. Our team is composed of passionate individuals who are dedicated to making a difference in the lives of our clients and their patients.</p>
 
@@ -25,7 +15,7 @@
     <h2>Our Founders</h2>
 
     <div class="founder">
-        <img src="{% static 'images/nirmesh.png' %}" alt="Nirmesh Kikaganeshwala">
+        <img src="{% static 'images/nirmesh.png' %}" alt="Nirmesh Kikaganeshwala" class="founder-image founder-image-nirmesh">
         <div>
             <h3>Nirmesh Kikaganeshwala</h3>
             <p>Nirmesh is a visionary leader with a passion for healthcare. He graduated with Honors from J Mack Robinson Business College, Georgia State University. His dedication to improving healthcare delivery has been instrumental in shaping the direction of NAPO Healthcare.</p>
@@ -35,7 +25,7 @@
     <hr>
 
     <div class="founder">
-        <img src="{% static 'images/ami.png' %}" alt="Ami Ba Mbengue">
+        <img src="{% static 'images/ami.png' %}" alt="Ami Ba Mbengue" class="founder-image founder-image-ami">
         <div>
             <h3>Ami Ba Mbengue</h3>
             <p>Ami is a strategic thinker with a strong background in business and healthcare. She is a proud alumna of J Mack Robinson Business College, Georgia State University, where she graduated with Honors. Her innovative ideas and strategic planning skills have greatly contributed to the growth of NAPO Healthcare.</p>
@@ -45,7 +35,7 @@
     <hr>
 
     <div class="founder">
-        <img src="{% static 'images/nithder.png' %}" alt="Nithder Pierre">
+        <img src="{% static 'images/nithder.png' %}" alt="Nithder Pierre" class="founder-image founder-image-nithder">
         <div>
             <h3>Nithder Pierre</h3>
             <p>Nithder is a dynamic professional with a deep understanding of the healthcare industry. He graduated with Honors from J Mack Robinson Business College, Georgia State University. His expertise and commitment to excellence have played a key role in the success of NAPO Healthcare.</p>
@@ -55,7 +45,7 @@
     <hr>
 
     <div class="founder">
-        <img src="{% static 'images/kwadwo.png' %}" alt="Kwadwo Fening Okai">
+        <img src="{% static 'images/kwadwo.png' %}" alt="Kwadwo Fening Okai" class="founder-image founder-image-kwadwo">
         <div>
             <h3>Kwadwo Fening Okai</h3>
             <p>Kwadwo is a dedicated professional with a passion for improving healthcare outcomes. He is an Honors graduate from J Mack Robinson Business College, Georgia State University. His leadership and dedication have been pivotal in driving the mission of NAPO Healthcare.</p>
@@ -63,5 +53,16 @@
     </div>
 
     <p>Together, our founders have created a company that is dedicated to delivering high-quality healthcare solutions. At NAPO Healthcare, we believe in the power of innovation and are committed to improving the lives of our clients and their patients.</p>
+
+    <style>
+        h1 {color: #333;}
+        h2 {color: #666;}
+        hr {border: 1px solid #ddd;}
+        .founder {display: flex; align-items: center;}
+        .founder-image-nirmesh {width: 200px; height: 180px; border-radius: 50%; margin-right: 60px;}
+        .founder-image-ami {width: 200px; height: 270px; border-radius: 50%; margin-right: 60px;}
+        .founder-image-nithder {width: 200px; height: 280px; border-radius: 50%; margin-right: 80px;}
+        .founder-image-kwadwo {width: 250px; height: 180px; border-radius: 50%; margin-right: 20px;}
+    </style>
 
 {% endblock %}

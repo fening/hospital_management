@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseServerError, HttpResponse
 from django.utils import timezone
-from .forms import PatientForm, AddAdmissionForm, RemoveAdmissionForm, DoctorForm, EmployeeForm, DepartmentForm, MedicationForm, PrescriptionForm,LoginForm
-from .models import Patients,Admissions,Doctors, Employees, Departments, Medications, Prescriptions, DoctorRotation
+from .forms import PatientForm, AddAdmissionForm, RemoveAdmissionForm, DoctorForm, EmployeeForm, DepartmentForm, MedicationForm, PrescriptionForm,LoginForm, InsuranceForm
+from .models import Patients,Admissions,Doctors, Employees, Departments, Medications, Prescriptions, DoctorRotation,Insurance
 from .db import *
 
 def index(request):
@@ -293,3 +293,39 @@ def add_prescription(request, patient_id):
     else:
         form = PrescriptionForm(initial={'date_prescribed': timezone.now()})  # Set initial value of date_prescribed to now
     return render(request, 'add_prescription.html', {'form': form, 'patient': patient})
+
+def insurance_list(request):
+    insurances = Insurance.objects.all()
+    return render(request, 'insurance_list.html', {'insurances': insurances})
+
+def add_insurance(request):
+    if request.method == 'POST':
+        form = InsuranceForm(request.POST)
+        if form.is_valid():
+            insurance = form.save(commit=False)
+            last_insurance = Insurance.objects.all().order_by('-insurance_id').first()
+            new_insurance_id = (last_insurance.insurance_id + 1) if last_insurance else 1
+            insurance.insurance_id = new_insurance_id
+            insurance.save()
+            return redirect('insurance-list')
+    else:
+        form = InsuranceForm()
+    return render(request, 'add_insurance.html', {'form': form})
+
+def remove_insurance(request, insurance_id):
+    insurance = get_object_or_404(Insurance, insurance_id=insurance_id)
+    if request.method == 'POST':
+        insurance.delete()
+        return redirect('insurance-list')
+    return render(request, 'remove_insurance.html', {'insurance': insurance})
+
+def edit_or_update_insurance(request, insurance_id):
+    insurance = get_object_or_404(Insurance, insurance_id=insurance_id)
+    if request.method == 'POST':
+        form = InsuranceForm(request.POST, instance=insurance)
+        if form.is_valid():
+            form.save()
+            return redirect('insurance-list')
+    else:
+        form = InsuranceForm(instance=insurance)
+    return render(request, 'update_insurance.html', {'form': form})

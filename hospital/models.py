@@ -94,8 +94,8 @@ class Tests(models.Model):
 
 class Appointments(models.Model):
     appointment_id = models.IntegerField(primary_key=True)
-    patient_id = models.IntegerField()
-    doctor_id = models.IntegerField()
+    patient = models.ForeignKey(Patients, on_delete=models.CASCADE, db_column='patient_id') 
+    doctor = models.ForeignKey('Doctors', on_delete=models.CASCADE, db_column='doctor_id')
     appointment_date = models.DateField()
     purpose = models.CharField(max_length=255)
     status = models.CharField(max_length=255)
@@ -106,7 +106,7 @@ class Appointments(models.Model):
 
 class Surgeries(models.Model):
     surgery_id = models.IntegerField(primary_key=True)
-    patient_id = models.IntegerField()
+    patient = models.ForeignKey(Patients, on_delete=models.CASCADE, db_column='patient_id') 
     surgeon_id = models.IntegerField()
     surgery_date = models.DateField()
     notes = models.CharField(max_length=255)
@@ -136,7 +136,7 @@ class Beds(models.Model):
 
 class Payments(models.Model):
     payment_id = models.IntegerField(primary_key=True)
-    patient_id = models.IntegerField()
+    patient = models.ForeignKey(Patients, on_delete=models.CASCADE, db_column='patient_id') 
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_date = models.DateField()
     payment_method = models.CharField(max_length=255)
@@ -147,7 +147,7 @@ class Payments(models.Model):
 
 class Insurance(models.Model):
     insurance_id = models.IntegerField(primary_key=True)
-    patient_id = models.IntegerField()
+    patient = models.ForeignKey(Patients, on_delete=models.CASCADE, db_column='patient_id') 
     insurance_company = models.CharField(max_length=255)
     policy_number = models.CharField(max_length=255)
     valid_from = models.DateField()
@@ -159,8 +159,8 @@ class Insurance(models.Model):
 
 class MedicalHistory(models.Model):
     medical_history_id = models.IntegerField(primary_key=True)
-    patient_id = models.IntegerField()
-    doctor_id = models.IntegerField()
+    patient = models.ForeignKey(Patients, on_delete=models.CASCADE, db_column='patient_id') 
+    doctor = models.ForeignKey('Doctors', on_delete=models.CASCADE, db_column='doctor_id')
     date = models.DateField()
     condition = models.CharField(max_length=255)
     treatment = models.CharField(max_length=255)
