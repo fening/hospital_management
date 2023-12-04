@@ -17,6 +17,7 @@ Patient List
                 <th>Date of Birth</th>
                 <th>Gender</th>
                 <th>Medications</th>
+                <th>Insurance</th>
                 <th>View Details</th>
                 <th>Edit</th>
                 <th>Admissions</th>
@@ -35,6 +36,13 @@ Patient List
                         Yes
                     {% else %}
                         No medications
+                    {% endif %}
+                </td>
+                <td>
+                    {% if patient.insurances.all %}
+                        Yes
+                    {% else %}
+                        No insurances
                     {% endif %}
                 </td>
                 <td>

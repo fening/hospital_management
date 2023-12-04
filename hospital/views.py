@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseServerError, HttpResponse
 from django.utils import timezone
-from .forms import PatientForm, AddAdmissionForm, RemoveAdmissionForm, DoctorForm, EmployeeForm, DepartmentForm, MedicationForm, PrescriptionForm,LoginForm, InsuranceForm
-from .models import Patients,Admissions,Doctors, Employees, Departments, Medications, Prescriptions, DoctorRotation,Insurance
+from .forms import PatientForm, AddAdmissionForm, RemoveAdmissionForm, DoctorForm, EmployeeForm, DepartmentForm, MedicationForm, PrescriptionForm,LoginForm, InsuranceForm, MedicalHistoryForm
+from .models import Patients,Admissions,Doctors, Employees, Departments, Medications, Prescriptions, DoctorRotation,Insurance, MedicalHistory
 from .db import *
 
 def index(request):
@@ -70,16 +70,22 @@ def profile_view(request):
 
 def patient_list(request):
     patients = Patients.objects.prefetch_related('admissions_set').all()
+    
     for patient in patients:
-        prescriptions = Prescriptions.objects.filter(patient_id=patient.patient_id)
+        prescriptions = Prescriptions.objects.filter(patient=patient)
         patient.medications = [prescription.medication.medication_name for prescription in prescriptions]
+        
+        insurances = Insurance.objects.filter(patient=patient)
+        patient.insurances = insurances  # Assign insurances to the patient object
+
     context = {'patients': patients}
     return render(request, 'patient_list.html', context)
 
 def patient_detail(request, patient_id):
     patient = get_object_or_404(Patients, patient_id=patient_id)
     prescriptions = Prescriptions.objects.filter(patient=patient)
-    context = {'patient': patient, 'prescriptions': prescriptions}
+    insurances = Insurance.objects.filter(patient=patient)
+    context = {'patient': patient, 'prescriptions': prescriptions, 'insurances': insurances}
     return render(request, 'patient_detail.html', context)
 
 def edit_or_update_patient(request, patient_id):
@@ -298,19 +304,24 @@ def insurance_list(request):
     insurances = Insurance.objects.all()
     return render(request, 'insurance_list.html', {'insurances': insurances})
 
-def add_insurance(request):
+def add_insurance(request, patient_id):
+    patient = get_object_or_404(Patients, pk=patient_id)
+
     if request.method == 'POST':
         form = InsuranceForm(request.POST)
         if form.is_valid():
             insurance = form.save(commit=False)
+            insurance.patient = patient  # Link insurance to the patient
             last_insurance = Insurance.objects.all().order_by('-insurance_id').first()
             new_insurance_id = (last_insurance.insurance_id + 1) if last_insurance else 1
             insurance.insurance_id = new_insurance_id
             insurance.save()
-            return redirect('insurance-list')
+            return redirect('patient-detail', patient_id=patient_id)
     else:
         form = InsuranceForm()
-    return render(request, 'add_insurance.html', {'form': form})
+    
+    return render(request, 'add_insurance.html', {'form': form, 'patient': patient})
+
 
 def remove_insurance(request, insurance_id):
     insurance = get_object_or_404(Insurance, insurance_id=insurance_id)
@@ -329,3 +340,39 @@ def edit_or_update_insurance(request, insurance_id):
     else:
         form = InsuranceForm(instance=insurance)
     return render(request, 'update_insurance.html', {'form': form})
+
+def add_medical_history(request, patient_id):
+    patient = get_object_or_404(Patients, pk=patient_id)
+
+    if request.method == 'POST':
+        form = MedicalHistoryForm(request.POST)
+        if form.is_valid():
+            medical_history = form.save(commit=False)
+            medical_history.patient = patient  # Link medical history to the patient
+            medical_history.save()
+            return redirect('patient-detail', patient_id=patient_id)
+    else:
+        form = MedicalHistoryForm()
+    
+    return render(request, 'add_medical_history.html', {'form': form, 'patient': patient})
+
+
+def remove_medical_history(request, medical_history_id):
+    medical_history = get_object_or_404(MedicalHistory, medical_history_id=medical_history_id)
+    if request.method == 'POST':
+        medical_history.delete()
+        return redirect('medical-history-list')
+    return render(request, 'remove_medical_history.html', {'medical_history': medical_history})
+
+
+def edit_or_update_medical_history(request, medical_history_id):
+    medical_history = get_object_or_404(MedicalHistory, medical_history_id=medical_history_id)
+    if request.method == 'POST':
+        form = MedicalHistoryForm(request.POST, instance=medical_history)
+        if form.is_valid():
+            form.save()
+            return redirect('medical-history-list')
+    else:
+        form = MedicalHistoryForm(instance=medical_history)
+    return render(request, 'update_medical_history.html', {'form': form})
+

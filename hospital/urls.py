@@ -35,7 +35,11 @@ urlpatterns = [
     path('medications/<int:medication_id>/remove/', views.remove_medication, name='remove-medication'),
     path('patients/<int:patient_id>/add_prescription/', views.add_prescription, name='add-prescription'),
     path('insurances/', views.insurance_list, name='insurance-list'),
-    path('add_insurance/', views.add_insurance, name='add-insurance'),
+    path('patients/<int:patient_id>/add_insurance/', views.add_insurance, name='add-insurance'),
     path('insurances/<int:insurance_id>/update/', views.edit_or_update_insurance, name='update-insurance'),
     path('insurances/<int:insurance_id>/remove/', views.remove_insurance, name='remove-insurance'),
+    path('patients/<int:patient_id>/add_medical_history/', views.add_medical_history, name='add-medical-history'),
+    path('medical_history/<int:medical_history_id>/update/', views.edit_or_update_medical_history, name='update-medical-history'),
+    path('medical_history/<int:medical_history_id>/remove/', views.remove_medical_history, name='remove-medical-history'),
+
 ]

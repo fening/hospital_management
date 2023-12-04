@@ -34,11 +34,29 @@
 {% endif %}
 </dd>
 <dd>
+    {% if insurances %}
+        <h2>Insurances:</h2>
+        <ul class="alt">
+            {% for insurance in insurances %}
+                <li>
+                    <h3>{{ insurance.insurance_company }}</h3>
+                    <p>Policy Number: {{ insurance.policy_number }}</p>
+                    <p>Valid From: {{ insurance.valid_from }}</p>
+                    <p>Valid To: {{ insurance.valid_to }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No insurances available for this patient.</p>
+    {% endif %}
+</dd>
+<dd>
 <a href="{% url 'remove-patient' patient_id=patient.patient_id %}" class="button">Remove Patient</a>
 <a href="{% url 'patient-list' %}" class="button primary">Back to Patient List</a>
     
 <!-- Add link to add prescription for this patient -->
 <a href="{% url 'add-prescription' patient_id=patient.patient_id %}" class="button primary">Add Prescription</a>
+<a href="{% url 'add-insurance' patient_id=patient.patient_id %}" class="button primary">Add Insurance</a>
 </dd>
 </dl>
 </div>

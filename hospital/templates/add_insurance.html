@@ -5,11 +5,30 @@ Add Insurance
 {% endblock %}
 
 {% block content %}
-<body>
-    <h1>Add Insurance</h1>
+<style>
+
+    /* Style form inputs */
+    .form-container input[type="text"],
+    .form-container input[type="date"],
+    .form-container select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    
+    
+    
+    </style>
+    
+    <div class="form-container">
+        <h1>Add Insurance</h1>
+
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <button type="submit">Add to Patient</button>
     </form>
 {% endblock %}

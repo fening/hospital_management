@@ -73,8 +73,30 @@ class PrescriptionForm(forms.ModelForm):
 class InsuranceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['patient'].label_from_instance = lambda obj: obj.name  # Assuming 'name' is the field in the Patient model
-        
+        self.fields['insurance_company'].widget = forms.Select(choices=self.get_insurance_choices())
+
+    def get_insurance_choices(self):
+        return [(company, company) for company in Insurance.objects.values_list('insurance_company', flat=True).distinct()]
+
     class Meta:
         model = Insurance
-        exclude = ['insurance_id']
+        exclude = ['insurance_id', 'patient']  # Exclude 'patient' if you want to assign it dynamically
+
+        widgets = {
+            'valid_from': forms.DateInput(attrs={'type': 'date'}),
+            'valid_to': forms.DateInput(attrs={'type': 'date'})
+        }
+
+class MedicalHistoryForm(forms.ModelForm):
+    class Meta:
+        model = MedicalHistory
+        fields = ['patient', 'doctor', 'date', 'condition', 'treatment']
+
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        
